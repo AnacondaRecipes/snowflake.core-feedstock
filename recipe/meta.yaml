@@ -1,0 +1,57 @@
+{% set name = "snowflake.core" %}
+{% set version = "0.8.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
+  sha256: 29372c39fae5ab12ee477b16a9555d927f3fad394755252f4533f47717b99cef
+
+build:
+  number: 0
+  # snowflake-snowpark-python not available for s390x
+  skip: true  # [py<38 or py>311 or s390x]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+
+requirements:
+  host:
+    - python
+    - hatchling
+    - pip
+  run:
+    - python
+    - atpublic >=4
+    - pydantic >=1.10.7
+    - python-dateutil >=2.8.2
+    - snowflake-snowpark-python >=1.5.0,<2.0.0
+    - urllib3
+
+test:
+  imports:
+    - snowflake.core
+  requires:
+    - pip
+    - pytest
+  source_files:
+    - tests/unit
+  commands:
+    - pip check
+    # do not test tests/integ because
+    # we do not have CONNECTION_PARAMETERS set
+    - pytest tests/unit
+
+about:
+  home: https://pypi.org/project/snowflake.core
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: Snowflake Python API for Resource Management
+  description: Snowflake Python API for Resource Management
+  doc_url: https://docs.snowflake.com/developer-guide/snowflake-python-api/snowflake-python-overview
+  dev_url: https://pypi.org/project/snowflake.core
+
+extra:
+  recipe-maintainers:
+    - lorepirri
