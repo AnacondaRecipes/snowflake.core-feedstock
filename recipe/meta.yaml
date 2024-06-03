@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "0.8.0" %}
+{% set version = "0.8.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
-  sha256: 29372c39fae5ab12ee477b16a9555d927f3fad394755252f4533f47717b99cef
+  sha256: ab273abd1e3ee3a9336198cc2e1c7f1c39f865026f4d171e4632cadff12b2e6c
 
 build:
   number: 0
@@ -23,7 +23,7 @@ requirements:
   run:
     - python
     - atpublic >=4
-    - pydantic >=1.10.7
+    - pydantic >=2
     - python-dateutil >=2.8.2
     - snowflake-snowpark-python >=1.5.0,<2.0.0
     - urllib3
