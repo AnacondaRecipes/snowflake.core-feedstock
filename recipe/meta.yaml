@@ -10,7 +10,7 @@ source:
   sha256: 0bdadafe6745075cbc7934ddcf3b2a450b95a420e5e2e0b89f52ed153ee5a580
 
 build:
-  number: 0
+  number: 100
   # snowflake-snowpark-python not available for s390x
   skip: true  # [py<38 or py>311 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
