@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "0.12.1" %}
+{% set version = "0.13.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
-  sha256: e2ce9f23580fda79ba4d14fb3646f4f09bb5fa47ef488b66095e482e4ac45656
+  sha256: ffcfe2fff209c54be3df52bb792235255c2107cc1e2f06e47819be1c1d55071f
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -29,6 +29,8 @@ requirements:
     - python-dateutil >=2.8.2
     - requests
     - snowflake-snowpark-python >=1.5.0,<2.0.0
+    - snowflake-connector-python
+    - pyyaml
     - urllib3
 
 test:
