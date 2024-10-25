@@ -31,6 +31,8 @@ requirements:
     - snowflake-connector-python
     - pyyaml
     - urllib3
+  run_constrained:
+    - snowflake-snowpark-python>=1.5.0,<2.0.0
 
 test:
   imports:
@@ -44,7 +46,7 @@ test:
     - pip check
     # do not test tests/integ because
     # we do not have CONNECTION_PARAMETERS set
-    - pytest tests/unit
+    - pytest tests/unit -m "not snowpark"
 
 about:
   home: https://pypi.org/project/snowflake.core
