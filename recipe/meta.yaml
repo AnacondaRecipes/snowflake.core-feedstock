@@ -14,7 +14,8 @@ build:
   # higher build number than the package we release
   number: 100
   # atpublic doesn't support py>311
-  skip: true  # [py<38 or py>311]
+  # snowflake-connector-python not available for s390x
+  skip: true  # [py<38 or py>311 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
