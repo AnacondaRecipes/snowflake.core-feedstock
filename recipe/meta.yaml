@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.0.2" %}
+{% set version = "1.0.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
-  sha256: 8bf267ff1efcd17f157432c6e24f6d2eb6c2aeed66f43ab34b215aa76d8edf02
+  sha256: ec0b209ff5801ece24f4d2ea71d6d11dbfd7accd6f12c4448e8003e18d2df365
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -15,7 +15,7 @@ build:
   number: 100
   # atpublic doesn't support py>311
   # snowflake-connector-python not available for s390x
-  skip: true  # [py<38 or py>311 or s390x]
+  skip: true  # [py<39 or py>311 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
@@ -32,6 +32,7 @@ requirements:
     - snowflake-connector-python
     - pyyaml
     - urllib3
+    - protobuf >=4.0.0,<5.0.0
   run_constrained:
     - snowflake-snowpark-python >=1.5.0,<2.0.0
 
