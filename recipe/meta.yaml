@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.0.3" %}
+{% set version = "1.0.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
-  sha256: ec0b209ff5801ece24f4d2ea71d6d11dbfd7accd6f12c4448e8003e18d2df365
+  sha256: 8f93a72fb59799949a3337b6ab529a9169fec10037cefd7ac538b500211d9c0c
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -31,7 +31,6 @@ requirements:
     - snowflake-connector-python
     - pyyaml
     - urllib3
-    - protobuf >=4.0.0,<5.0.0
   run_constrained:
     - snowflake-snowpark-python >=1.5.0,<2.0.0
 
