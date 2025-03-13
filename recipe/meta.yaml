@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.0.5" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snowflake_core-{{ version }}.tar.gz
-  sha256: 8f93a72fb59799949a3337b6ab529a9169fec10037cefd7ac538b500211d9c0c
+  sha256: 620a0e4026185f39e025a3db9ec6240d8f91b14d737891ea9de3f681224471ed
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -46,7 +46,9 @@ test:
     - pip check
     # do not test tests/integ because
     # we do not have CONNECTION_PARAMETERS set
-    - pytest tests/unit -m "not snowpark"
+    # tests/unit/test_common.py rely on paths relative to the test source file location
+    # PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
+    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
 
 about:
   home: https://pypi.org/project/snowflake.core
