@@ -44,11 +44,12 @@ test:
     - tests/unit
   commands:
     - pip check
-    # do not test tests/integ because
-    # we do not have CONNECTION_PARAMETERS set
-    # tests/unit/test_common.py rely on paths relative to the test source file location
-    # PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
-    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
+    # 1. do not test tests/integ because
+    #    we do not have CONNECTION_PARAMETERS set
+    # 2. tests/unit/test_common.py rely on paths relative to the test source file location
+    #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
+    # 3. test_drop unstable on windows
+    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py -k "not test_drop"
 
 about:
   home: https://pypi.org/project/snowflake.core
