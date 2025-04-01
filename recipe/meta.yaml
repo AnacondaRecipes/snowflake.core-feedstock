@@ -41,7 +41,7 @@ test:
     - pip
     - pytest
   source_files:
-    - tests/unit
+    - tests
   commands:
     - pip check
     # 1. do not test tests/integ because
