@@ -14,7 +14,7 @@ build:
   # higher build number than the package we release
   number: 100
   # snowflake-connector-python not available for s390x
-  skip: true  # [py<39 or s390x]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
