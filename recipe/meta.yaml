@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.3.0" %}
+{% set version = "1.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,13 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: d0dfc71625cab7591f3bdf948535000dc38c8ca14d577c640875e7623acf7ee6
+  sha256: dc1ccedece41b52fdcb85f89c0ab801bc52c71ae68a3bf5f7e9df74d750fe44f
 
 build:
   # allows SF to rebuild the package as needed without incurring a
   # higher build number than the package we release
   number: 100
-  # snowflake-connector-python not available for s390x
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
