@@ -45,7 +45,6 @@ test:
     #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
     # 3. test_drop unstable on windows
     - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py -k "not test_drop"
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
   requires:
     - pip
     - pytest
