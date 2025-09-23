@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.7.0" %}
+{% set version = "1.8.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: 8655a94c211ae04d1d803dbc876249de6d3f8021cc5738d689aea842d1b66a7f
+  sha256: 96d6f2c61a44bc72efa229c3a8cef2f4a5d4e2c756b00e01820c8147533a8bec
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -23,6 +23,7 @@ requirements:
     - pip
   run:
     - python
+    - certifi
     - pydantic >=2
     - python-dateutil >=2.8.2
     - requests
@@ -43,8 +44,7 @@ test:
     #    we do not have CONNECTION_PARAMETERS set
     # 2. tests/unit/test_common.py rely on paths relative to the test source file location
     #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
-    # 3. test_drop unstable on windows
-    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py -k "not test_drop"
+    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
   requires:
     - pip
     - pytest
