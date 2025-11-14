@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.8.0" %}
+{% set version = "1.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,13 +7,13 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: 96d6f2c61a44bc72efa229c3a8cef2f4a5d4e2c756b00e01820c8147533a8bec
+  sha256: 1083a01884e9cceb93dc075c99bbc9ae9d7afd808bf3cff8c003624d35f119d0
 
 build:
   # allows SF to rebuild the package as needed without incurring a
   # higher build number than the package we release
   number: 100
-  skip: true  # [py<39]
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
@@ -33,6 +33,10 @@ requirements:
   run_constrained:
     - snowflake-snowpark-python >=1.5.0,<2.0.0
 
+# Due to following error, test_simple_file_logging has started to be flaky in CI. Please check it during the next version update
+# E PermissionError: [Errno 13] Permission denied: '/tmp/snowflake_core.log'
+{% set deselect_tests = "--deselect=tests/unit/test_logging.py::test_simple_file_logging" %}
+
 test:
   imports:
     - snowflake.core
@@ -44,7 +48,7 @@ test:
     #    we do not have CONNECTION_PARAMETERS set
     # 2. tests/unit/test_common.py rely on paths relative to the test source file location
     #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
-    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
+    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py {{ deselect_tests }}
   requires:
     - pip
     - pytest
