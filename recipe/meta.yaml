@@ -33,10 +33,6 @@ requirements:
   run_constrained:
     - snowflake-snowpark-python >=1.5.0,<2.0.0
 
-# Due to following error, test_simple_file_logging has started to be flaky in CI. Please check it during the next version update
-# E PermissionError: [Errno 13] Permission denied: '/tmp/snowflake_core.log'
-{% set deselect_tests = "--deselect=tests/unit/test_logging.py::test_simple_file_logging" %}
-
 test:
   imports:
     - snowflake.core
