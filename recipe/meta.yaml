@@ -44,7 +44,7 @@ test:
     #    we do not have CONNECTION_PARAMETERS set
     # 2. tests/unit/test_common.py rely on paths relative to the test source file location
     #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
-    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py {{ deselect_tests }}
+    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
   requires:
     - pip
     - pytest
