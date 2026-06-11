@@ -1,13 +1,13 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.12.0" %}
+{% set version = "1.12.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: 55c861753244b905db53f6a491914f349a8297a00611899473123a5a8786a747
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
+  sha256: 6cb1027101d7c6da12fef65041ff2a51a85a394dbb1f0ac095000ca054f26a7e
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -44,6 +44,10 @@ test:
     #    we do not have CONNECTION_PARAMETERS set
     # 2. tests/unit/test_common.py rely on paths relative to the test source file location
     #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
+    # unset conda-injected SSL vars so ca_certs tests expect None (Windows only)
+    - set SSL_CERT_FILE=&  # [win]
+    - set REQUESTS_CA_BUNDLE=&  # [win]
+    - set CURL_CA_BUNDLE=& # [win]
     - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
   requires:
     - pip
