@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.13.2" %}
+{% set version = "1.14.0" %}
 
 package:
   name: {{ name }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: 4970bee0ceaedd7dc9032eab8e5dcad39361a8bce1a3bf321165ced4a01baae0
+  sha256: 7301f38fa9b2f10009423a11637872da305a5e6ee8d2a70dc1cf9ab1973e56a6
 
 build:
   # allows SF to rebuild the package as needed without incurring a
   # higher build number than the package we release
   number: 100
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: true  # [py<310]
+  skip: true  # [py<311]
 
 requirements:
   host:
@@ -23,7 +23,7 @@ requirements:
     - hatchling
   run:
     - python
-    - certifi
+    - certifi >=2026.10.19
     - packaging
     - pydantic >=2
     - python-dateutil >=2.8.2
@@ -31,10 +31,13 @@ requirements:
     - snowflake-connector-python
     - pyyaml
     - typing_extensions
-    - urllib3
+    - urllib3 >=2
   run_constrained:
     - snowflake-snowpark-python >=1.5.0,<2.0.0
-    # universal-core
+    # Upstream defines this constraint for the optional 'universal-core' extra,
+    # which requires Snowflake Connector 5.x.
+    # Keep it disabled to avoid enforcing this optional requirement
+    # on standard installations using older connector versions.
     # - snowflake-connector-python >=5.0.0a0,!=5.0.0
     
     
