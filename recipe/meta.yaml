@@ -1,5 +1,5 @@
 {% set name = "snowflake.core" %}
-{% set version = "1.14.0" %}
+{% set version = "1.15.0" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('.', '_') }}-{{ version }}.tar.gz
-  sha256: 7301f38fa9b2f10009423a11637872da305a5e6ee8d2a70dc1cf9ab1973e56a6
+  sha256: d181823a78727ee7b1496461712f9f0c3f64365b95af548e98104f20a17d9698
 
 build:
   # allows SF to rebuild the package as needed without incurring a
@@ -27,7 +27,6 @@ requirements:
     - packaging
     - pydantic >=2
     - python-dateutil >=2.8.2
-    - requests
     - snowflake-connector-python
     - pyyaml
     - typing_extensions
@@ -39,25 +38,27 @@ requirements:
     # Keep it disabled to avoid enforcing this optional requirement
     # on standard installations using older connector versions.
     # - snowflake-connector-python >=5.0.0a0,!=5.0.0
-    
-    
+
+# Requires the Universal Driver installation script, which is not included in the sdist.
+{% set ignored_tests = "--ignore=tests/unit/test_install_universal_driver.py" %}
+
+# Flaky test: uses a fixed log file path in /tmp, which may cause permission errors in CI.
+{% set deselected_tests = "--deselect=tests/unit/test_logging.py::test_simple_file_logging" %}
 
 test:
   imports:
     - snowflake.core
   source_files:
+    - src
     - tests
   commands:
     - pip check
     # 1. do not test tests/integ because
     #    we do not have CONNECTION_PARAMETERS set
-    # 2. tests/unit/test_common.py rely on paths relative to the test source file location
-    #    PROJECT_SRC = Path(__file__).parent.parent.parent / "src" / "snowflake" / "core"
-    # unset conda-injected SSL vars so ca_certs tests expect None (Windows only)
     - set SSL_CERT_FILE=&  # [win]
     - set REQUESTS_CA_BUNDLE=&  # [win]
     - set CURL_CA_BUNDLE=& # [win]
-    - pytest tests/unit -m "not snowpark" --ignore=tests/unit/test_common.py
+    - pytest tests/unit -m "not snowpark" {{ ignored_tests }} {{ deselected_tests }}
   requires:
     - pip
     - pytest
